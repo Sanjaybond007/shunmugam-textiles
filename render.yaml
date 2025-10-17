@@ -1,0 +1,30 @@
+services:
+  # Backend API Service
+  - type: web
+    name: shunmugam-textiles-api
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+    # Add your environment variables here
+    # - key: FIREBASE_PROJECT_ID
+    #   fromDatabase:
+    #     name: firebase-config
+    #     property: project_id
+
+  # Frontend Static Site
+  - type: static
+    name: shunmugam-textiles-frontend
+    env: static
+    plan: free
+    buildCommand: cd client && npm install && npm run build
+    staticPublishPath: ./client/build
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
