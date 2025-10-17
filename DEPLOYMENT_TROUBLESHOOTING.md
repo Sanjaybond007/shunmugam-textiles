@@ -41,7 +41,7 @@ JWT_SECRET=[LONG_SECURE_SECRET]
 
 ### **Client (client/.env.production):**
 ```env
-REACT_APP_API_URL=https://shunmugam-textiles-api.onrender.com/api
+REACT_APP_API_URL=https://shunmugam-textiles-backend.onrender.com/api
 
 # Firebase Client Configuration
 REACT_APP_FIREBASE_API_KEY=AIzaSyDjsiKc23SNTOfJlGjd26a4TrOrBp97eIs
@@ -72,7 +72,7 @@ git push origin main
 2. Click **"New +"** → **"Web Service"**
 3. Connect your GitHub repository
 4. Configure:
-   - **Name**: `shunmugam-textiles-api`
+   - **Name**: `shunmugam-textiles-backend`
    - **Build Command**: `npm install`
    - **Start Command**: `npm start`
    - **Environment Variables**: Copy from `.env.production`

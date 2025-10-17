@@ -77,7 +77,7 @@ JWT_SECRET=your-super-secure-jwt-secret
 ### 2.3 Deploy Backend
 1. Click **"Create Web Service"**
 2. Wait for deployment (5-10 minutes)
-3. Note your backend URL: `https://shunmugam-textiles-api.onrender.com`
+3. Note your backend URL: `https://shunmugam-textiles-backend.onrender.com`
 
 ---
 
@@ -101,7 +101,7 @@ JWT_SECRET=your-super-secure-jwt-secret
 In the **Environment** tab, add:
 
 ```
-REACT_APP_API_URL=https://shunmugam-textiles-api.onrender.com/api
+REACT_APP_API_URL=https://shunmugam-textiles-backend.onrender.com/api
 REACT_APP_FIREBASE_API_KEY=your-firebase-api-key
 REACT_APP_FIREBASE_AUTH_DOMAIN=your-project.firebaseapp.com
 REACT_APP_FIREBASE_PROJECT_ID=your-firebase-project-id
@@ -219,4 +219,4 @@ If you encounter issues:
 **Your application should now be live and accessible worldwide! 🎉**
 
 Frontend: https://shunmugam-textiles-frontend.onrender.com
-Backend API: https://shunmugam-textiles-api.onrender.com
+Backend API: https://shunmugam-textiles-backend.onrender.com
