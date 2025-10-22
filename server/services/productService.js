@@ -11,6 +11,7 @@ class ProductService {
       description: productData.description || '',
       imageURL: productData.imageURL || null,
       qualities: productData.qualities || 4,
+      qualityNames: productData.qualityNames || ['Quality 1', 'Quality 2', 'Quality 3', 'Quality 4'],
       active: productData.active !== undefined ? productData.active : true
     };
 

@@ -148,7 +148,8 @@ const AdminDashboard = () => {
     e.preventDefault();
     try {
       if (editingProduct) {
-        await authService.api.put(`/admin/products/${editingProduct.id}`, productForm);
+        const productId = editingProduct.id || editingProduct._id;
+        await authService.api.put(`/admin/products/${productId}`, productForm);
         toast.success('Product updated successfully');
       } else {
         await authService.api.post('/admin/products', productForm);
@@ -606,7 +607,7 @@ const AdminDashboard = () => {
                       </thead>
                       <tbody>
                         {products.map((product) => (
-                          <tr key={product.id}>
+                          <tr key={product.id || product._id}>
                             <td>
                               {product.imageURL ? (
                                 <img 
@@ -657,7 +658,7 @@ const AdminDashboard = () => {
                                 <Button variant="outline-primary" onClick={() => handleEditProduct(product)}>
                                   <FaEdit />
                                 </Button>
-                                <Button variant="outline-danger" onClick={() => handleDeleteProduct(product.id)}>
+                                <Button variant="outline-danger" onClick={() => handleDeleteProduct(product.id || product._id)}>
                                   <FaTrash />
                                 </Button>
                               </ButtonGroup>

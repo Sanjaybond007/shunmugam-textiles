@@ -390,7 +390,7 @@ router.get('/products', async (req, res) => {
 
 router.post('/products', async (req, res) => {
   try {
-    const { name, description, imageURL, qualities, active } = req.body;
+    const { name, description, imageURL, qualities, qualityNames, active } = req.body;
     
     if (!name) {
       return res.status(400).json({ message: 'Product name is required' });
@@ -401,6 +401,7 @@ router.post('/products', async (req, res) => {
       description,
       imageURL,
       qualities,
+      qualityNames,
       active
     });
 
@@ -414,13 +415,14 @@ router.post('/products', async (req, res) => {
 router.put('/products/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const { name, description, imageURL, qualities, active } = req.body;
+    const { name, description, imageURL, qualities, qualityNames, active } = req.body;
 
     const updateData = {};
     if (name) updateData.name = name;
     if (description !== undefined) updateData.description = description;
     if (imageURL !== undefined) updateData.imageURL = imageURL;
     if (qualities !== undefined) updateData.qualities = qualities;
+    if (qualityNames !== undefined) updateData.qualityNames = qualityNames;
     if (active !== undefined) updateData.active = active;
 
     const product = await productService.updateProduct(id, updateData);

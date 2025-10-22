@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Card, Badge } from 'react-bootstrap';
 import { FaIndustry, FaCheckCircle } from 'react-icons/fa';
+import authService from '../services/authService';
 
 const Products = () => {
   const [products, setProducts] = useState([]);
@@ -12,11 +13,11 @@ const Products = () => {
 
   const fetchProducts = async () => {
     try {
-      const response = await fetch('/api/public/products');
-      const data = await response.json();
-      setProducts(data);
+      const response = await authService.api.get('/public/products');
+      setProducts(response.data || []);
     } catch (error) {
       console.error('Failed to fetch products:', error);
+      setProducts([]);
     } finally {
       setLoading(false);
     }
@@ -63,9 +64,23 @@ const Products = () => {
           
           {products.length > 0 ? (
             <Row>
-              {products.map((product) => (
-                <Col lg={6} className="mb-4" key={product._id}>
+              {products.filter(product => product.active).map((product) => (
+                <Col lg={6} className="mb-4" key={product.id || product._id}>
                   <Card className="h-100 product-card">
+                    {product.imageURL && (
+                      <Card.Img 
+                        variant="top" 
+                        src={product.imageURL} 
+                        alt={product.name}
+                        style={{ 
+                          height: '250px', 
+                          objectFit: 'cover' 
+                        }}
+                        onError={(e) => {
+                          e.target.style.display = 'none';
+                        }}
+                      />
+                    )}
                     <Card.Body>
                       <Card.Title className="textile-primary">{product.name}</Card.Title>
                       <Card.Text className="text-muted">
@@ -81,12 +96,17 @@ const Products = () => {
                               {quality}
                             </Badge>
                           ))}
+                          {!product.qualityNames && (
+                            <Badge bg="info" text="white">
+                              {product.qualities || 4} Quality Parameters
+                            </Badge>
+                          )}
                         </div>
                       </div>
                       
                       <div className="product-status">
-                        <span className={`badge bg-${product.active ? 'success' : 'secondary'}`}>
-                          {product.active ? 'Available' : 'Currently Unavailable'}
+                        <span className="badge bg-success">
+                          Available
                         </span>
                       </div>
                     </Card.Body>
@@ -100,7 +120,12 @@ const Products = () => {
                 <div className="py-5">
                   <FaIndustry size={80} className="text-muted mb-3" />
                   <h4 className="text-muted">No Products Available</h4>
-                  <p className="text-muted">Products will be displayed here once they are added to the system.</p>
+                  <p className="text-muted">
+                    {products.length === 0 
+                      ? "Products will be displayed here once they are added to the system."
+                      : "All products are currently unavailable. Please check back later."
+                    }
+                  </p>
                 </div>
               </Col>
             </Row>
