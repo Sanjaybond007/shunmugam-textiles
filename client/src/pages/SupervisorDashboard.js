@@ -5,6 +5,8 @@ import { toast } from 'react-toastify';
 import authService from '../services/authService';
 
 const SupervisorDashboard = () => {
+  console.log('🔄 SupervisorDashboard v2.0 component loaded');
+  
   const [reports, setReports] = useState([]);
   const [employees, setEmployees] = useState([]);
   const [products, setProducts] = useState([]);
@@ -101,14 +103,14 @@ const SupervisorDashboard = () => {
   }
 
   return (
-    <Container fluid className="py-4">
+    <Container fluid className="py-4" key="supervisor-dashboard-v2">
       {/* Header */}
       <Row className="mb-4">
         <Col>
           <div className="d-flex align-items-center justify-content-between">
             <div className="d-flex align-items-center">
               <FaChartBar size={24} className="text-primary me-2" />
-              <h4 className="mb-0 text-primary">Supervisor Dashboard</h4>
+              <h4 className="mb-0 text-primary">Supervisor Dashboard v2.0</h4>
             </div>
             <div className="text-muted small">
               Supervisor Reports
