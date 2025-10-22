@@ -23,7 +23,15 @@ class ProductService {
   }
 
   async getAllProducts(filters = {}) {
-    return await firestoreService.findAll(this.collection, filters, { field: 'name', direction: 'asc' });
+    try {
+      console.log('ProductService: Fetching ALL products from Firestore...');
+      const products = await firestoreService.findAll(this.collection, filters, { field: 'name', direction: 'asc' });
+      console.log('ProductService: Found', products ? products.length : 0, 'total products');
+      return products || [];
+    } catch (error) {
+      console.error('ProductService: Error fetching all products:', error);
+      return [];
+    }
   }
 
   async getActiveProducts() {

@@ -44,13 +44,69 @@ router.get('/test-db', async (req, res) => {
   }
 });
 
+// Debug endpoint to see all products with their active status
+router.get('/products-debug', async (req, res) => {
+  try {
+    const allProducts = await productService.getAllProducts();
+    const activeProducts = await productService.getActiveProducts();
+    
+    res.json({
+      totalProducts: allProducts.length,
+      activeProducts: activeProducts.length,
+      allProductsData: allProducts.map(p => ({
+        id: p.id,
+        name: p.name,
+        active: p.active,
+        hasActiveField: p.hasOwnProperty('active')
+      })),
+      activeProductsData: activeProducts
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Temporary fix endpoint to set all products as active
+router.post('/fix-products-active', async (req, res) => {
+  try {
+    const allProducts = await productService.getAllProducts();
+    console.log('Fixing active status for', allProducts.length, 'products...');
+    
+    let updatedCount = 0;
+    for (const product of allProducts) {
+      if (product.active !== true) {
+        await productService.updateProduct(product.id, { active: true });
+        updatedCount++;
+      }
+    }
+    
+    res.json({
+      message: 'Products updated successfully',
+      totalProducts: allProducts.length,
+      updatedProducts: updatedCount
+    });
+  } catch (error) {
+    console.error('Fix products error:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // Get all products for public display
 router.get('/products', async (req, res) => {
   try {
     console.log('Fetching active products...');
-    const products = await productService.getActiveProducts();
-    console.log('Products fetched successfully:', products.length);
-    res.json(products);
+    
+    // Debug: Get ALL products first to see what's in the database
+    const allProducts = await productService.getAllProducts();
+    console.log('All products in database:', allProducts.length);
+    console.log('All products data:', JSON.stringify(allProducts, null, 2));
+    
+    // Get only active products
+    const activeProducts = await productService.getActiveProducts();
+    console.log('Active products found:', activeProducts.length);
+    console.log('Active products data:', JSON.stringify(activeProducts, null, 2));
+    
+    res.json(activeProducts);
   } catch (error) {
     console.error('Get products error:', error);
     console.error('Error stack:', error.stack);
