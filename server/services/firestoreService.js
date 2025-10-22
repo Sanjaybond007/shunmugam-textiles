@@ -63,28 +63,36 @@ class FirestoreService {
   }
 
   async findAll(collection, filters = {}, orderBy = null, limit = null) {
-    const db = await this.getDb();
-    let query = db.collection(collection);
-    
-    // Apply filters
-    Object.entries(filters).forEach(([field, value]) => {
-      if (value !== undefined && value !== null) {
-        query = query.where(field, '==', value);
+    try {
+      const db = await this.getDb();
+      let query = db.collection(collection);
+      
+      // Apply filters
+      Object.entries(filters).forEach(([field, value]) => {
+        if (value !== undefined && value !== null) {
+          query = query.where(field, '==', value);
+        }
+      });
+      
+      // Apply ordering
+      if (orderBy) {
+        query = query.orderBy(orderBy.field, orderBy.direction || 'asc');
       }
-    });
-    
-    // Apply ordering
-    if (orderBy) {
-      query = query.orderBy(orderBy.field, orderBy.direction || 'asc');
+      
+      // Apply limit
+      if (limit) {
+        query = query.limit(limit);
+      }
+      
+      const snapshot = await query.get();
+      return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    } catch (error) {
+      console.error(`FirestoreService: Error in findAll for collection ${collection}:`, error);
+      if (error.code === 8 || error.message.includes('Quota exceeded')) {
+        console.error('⚠️  Firebase quota exceeded. Please upgrade to Blaze plan or wait for quota reset.');
+      }
+      throw error;
     }
-    
-    // Apply limit
-    if (limit) {
-      query = query.limit(limit);
-    }
-    
-    const snapshot = await query.get();
-    return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
   }
 
   async update(collection, id, data) {

@@ -27,7 +27,17 @@ class ProductService {
   }
 
   async getActiveProducts() {
-    return await firestoreService.findAll(this.collection, { active: true }, { field: 'name', direction: 'asc' });
+    try {
+      console.log('ProductService: Fetching active products from Firestore...');
+      const products = await firestoreService.findAll(this.collection, { active: true }, { field: 'name', direction: 'asc' });
+      console.log('ProductService: Found', products ? products.length : 0, 'active products');
+      return products || [];
+    } catch (error) {
+      console.error('ProductService: Error fetching active products:', error);
+      console.error('ProductService: Returning empty array as fallback');
+      // Return empty array instead of throwing error to prevent 500 status
+      return [];
+    }
   }
 
   async updateProduct(id, updateData) {

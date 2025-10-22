@@ -13,10 +13,17 @@ const Products = () => {
 
   const fetchProducts = async () => {
     try {
+      console.log('Fetching products from backend...');
       const response = await authService.api.get('/public/products');
+      console.log('Products response:', response.data);
       setProducts(response.data || []);
     } catch (error) {
       console.error('Failed to fetch products:', error);
+      console.error('Error details:', {
+        status: error.response?.status,
+        message: error.message,
+        data: error.response?.data
+      });
       setProducts([]);
     } finally {
       setLoading(false);

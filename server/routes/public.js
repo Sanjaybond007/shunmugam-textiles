@@ -15,14 +15,49 @@ router.get('/company-info', async (req, res) => {
   }
 });
 
+// Test Firebase connection
+router.get('/test-db', async (req, res) => {
+  try {
+    console.log('Testing Firebase connection...');
+    const { getFirestore } = require('../config/firebaseAdmin');
+    const db = getFirestore();
+    
+    if (!db) {
+      return res.status(500).json({ message: 'Firebase not initialized' });
+    }
+    
+    // Try a simple query
+    const testCollection = await db.collection('products').limit(1).get();
+    console.log('Firebase connection test successful');
+    
+    res.json({ 
+      message: 'Firebase connection successful',
+      hasProducts: !testCollection.empty,
+      productCount: testCollection.size
+    });
+  } catch (error) {
+    console.error('Firebase test error:', error);
+    res.status(500).json({ 
+      message: 'Firebase connection failed',
+      error: error.message 
+    });
+  }
+});
+
 // Get all products for public display
 router.get('/products', async (req, res) => {
   try {
+    console.log('Fetching active products...');
     const products = await productService.getActiveProducts();
+    console.log('Products fetched successfully:', products.length);
     res.json(products);
   } catch (error) {
     console.error('Get products error:', error);
-    res.status(500).json({ message: 'Server error' });
+    console.error('Error stack:', error.stack);
+    res.status(500).json({ 
+      message: 'Server error',
+      error: process.env.NODE_ENV === 'development' ? error.message : 'Internal server error'
+    });
   }
 });
 
