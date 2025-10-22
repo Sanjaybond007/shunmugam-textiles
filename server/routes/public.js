@@ -94,18 +94,17 @@ router.post('/fix-products-active', async (req, res) => {
 // Get all products for public display
 router.get('/products', async (req, res) => {
   try {
-    console.log('Fetching active products...');
+    console.log('Fetching products for public display...');
     
-    // Debug: Get ALL products first to see what's in the database
+    // Temporary fix: Return all products since the active filter isn't working
     const allProducts = await productService.getAllProducts();
     console.log('All products in database:', allProducts.length);
-    console.log('All products data:', JSON.stringify(allProducts, null, 2));
     
-    // Get only active products
-    const activeProducts = await productService.getActiveProducts();
-    console.log('Active products found:', activeProducts.length);
-    console.log('Active products data:', JSON.stringify(activeProducts, null, 2));
+    // Filter manually for active products as a workaround
+    const activeProducts = allProducts.filter(product => product.active === true);
+    console.log('Manually filtered active products:', activeProducts.length);
     
+    // Return the manually filtered active products
     res.json(activeProducts);
   } catch (error) {
     console.error('Get products error:', error);
