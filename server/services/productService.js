@@ -37,13 +37,24 @@ class ProductService {
   async getActiveProducts() {
     try {
       console.log('ProductService: Fetching active products from Firestore...');
-      const products = await firestoreService.findAll(this.collection, { active: true }, { field: 'name', direction: 'asc' });
-      console.log('ProductService: Found', products ? products.length : 0, 'active products');
-      return products || [];
+      
+      // First, get all products and filter manually to debug the issue
+      const allProducts = await firestoreService.findAll(this.collection, {}, { field: 'name', direction: 'asc' });
+      console.log('ProductService: All products:', allProducts.map(p => ({ id: p.id, name: p.name, active: p.active, activeType: typeof p.active })));
+      
+      // Filter active products manually
+      const activeProducts = allProducts.filter(product => product.active === true);
+      console.log('ProductService: Manually filtered active products:', activeProducts.length);
+      
+      // Also try the original Firestore query for comparison
+      const firestoreActiveProducts = await firestoreService.findAll(this.collection, { active: true }, { field: 'name', direction: 'asc' });
+      console.log('ProductService: Firestore query active products:', firestoreActiveProducts.length);
+      
+      // Return the manually filtered results for now
+      return activeProducts || [];
     } catch (error) {
       console.error('ProductService: Error fetching active products:', error);
       console.error('ProductService: Returning empty array as fallback');
-      // Return empty array instead of throwing error to prevent 500 status
       return [];
     }
   }

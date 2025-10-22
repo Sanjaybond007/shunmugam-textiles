@@ -70,6 +70,7 @@ class FirestoreService {
       // Apply filters
       Object.entries(filters).forEach(([field, value]) => {
         if (value !== undefined && value !== null) {
+          console.log(`FirestoreService: Adding filter ${field} == ${value} (type: ${typeof value})`);
           query = query.where(field, '==', value);
         }
       });
@@ -171,6 +172,7 @@ class FirestoreService {
     // Apply filters
     Object.entries(filters).forEach(([field, value]) => {
       if (value !== undefined && value !== null) {
+        console.log(`FirestoreService: Adding filter ${field} == ${value} (type: ${typeof value})`);
         query = query.where(field, '==', value);
       }
     });
