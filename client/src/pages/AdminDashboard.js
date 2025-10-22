@@ -249,12 +249,13 @@ const AdminDashboard = () => {
 
   const handleEditProduct = (product) => {
     setEditingProduct(product);
+    const defaultQualityNames = Array.from({ length: product.qualities || 4 }, (_, i) => `Quality ${i + 1}`);
     setProductForm({
       name: product.name,
       description: product.description,
       imageURL: product.imageURL || '',
-      qualities: product.qualities,
-      qualityNames: product.qualityNames,
+      qualities: product.qualities || 4,
+      qualityNames: product.qualityNames || defaultQualityNames,
       active: product.active
     });
     setImagePreview(product.imageURL || null);
@@ -326,7 +327,7 @@ const AdminDashboard = () => {
   };
 
   const handleQualityChange = (index, value) => {
-    const newQualityNames = [...productForm.qualityNames];
+    const newQualityNames = [...(productForm.qualityNames || [])];
     newQualityNames[index] = value;
     setProductForm({ ...productForm, qualityNames: newQualityNames });
   };
@@ -334,7 +335,7 @@ const AdminDashboard = () => {
   const handleQualitiesCountChange = (count) => {
     const newQualityNames = [];
     for (let i = 0; i < count; i++) {
-      newQualityNames[i] = productForm.qualityNames[i] || `Quality ${i + 1}`;
+      newQualityNames[i] = (productForm.qualityNames && productForm.qualityNames[i]) || `Quality ${i + 1}`;
     }
     setProductForm({ ...productForm, qualities: count, qualityNames: newQualityNames });
   };
@@ -588,7 +589,19 @@ const AdminDashboard = () => {
                 <Card>
                   <Card.Header className="d-flex justify-content-between align-items-center">
                     <h5 className="mb-0">Products Management</h5>
-                    <Button variant="primary" onClick={() => setShowProductModal(true)}>
+                    <Button variant="primary" onClick={() => {
+                      setEditingProduct(null);
+                      setProductForm({ 
+                        name: '', 
+                        description: '', 
+                        imageURL: '', 
+                        qualities: 4, 
+                        qualityNames: ['Quality 1', 'Quality 2', 'Quality 3', 'Quality 4'], 
+                        active: true 
+                      });
+                      setImagePreview(null);
+                      setShowProductModal(true);
+                    }}>
                       <FaPlus className="me-2" />
                       Add Product
                     </Button>
@@ -937,7 +950,12 @@ const AdminDashboard = () => {
       </Modal>
 
       {/* Product Modal */}
-      <Modal show={showProductModal} onHide={() => setShowProductModal(false)} size="lg">
+      <Modal show={showProductModal} onHide={() => {
+        setShowProductModal(false);
+        setEditingProduct(null);
+        setProductForm({ name: '', description: '', imageURL: '', qualities: 4, qualityNames: ['Quality 1', 'Quality 2', 'Quality 3', 'Quality 4'], active: true });
+        setImagePreview(null);
+      }} size="lg">
         <Modal.Header closeButton>
           <Modal.Title>{editingProduct ? 'Edit Product' : 'Add New Product'}</Modal.Title>
         </Modal.Header>
@@ -1011,7 +1029,7 @@ const AdminDashboard = () => {
                   key={index}
                   type="text"
                   className="mb-2"
-                  value={productForm.qualityNames[index] || ''}
+                  value={(productForm.qualityNames && productForm.qualityNames[index]) || ''}
                   onChange={(e) => handleQualityChange(index, e.target.value)}
                   placeholder={`Quality ${index + 1}`}
                   required
@@ -1028,7 +1046,12 @@ const AdminDashboard = () => {
             </Form.Group>
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary" onClick={() => setShowProductModal(false)}>
+            <Button variant="secondary" onClick={() => {
+              setShowProductModal(false);
+              setEditingProduct(null);
+              setProductForm({ name: '', description: '', imageURL: '', qualities: 4, qualityNames: ['Quality 1', 'Quality 2', 'Quality 3', 'Quality 4'], active: true });
+              setImagePreview(null);
+            }}>
               Cancel
             </Button>
             <Button type="submit" variant="primary">
