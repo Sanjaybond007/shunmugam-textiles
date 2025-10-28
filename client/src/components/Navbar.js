@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { FaUserPlus, FaSignInAlt, FaSignOutAlt, FaUser } from 'react-icons/fa';
+import { FaSignInAlt, FaSignOutAlt, FaUser } from 'react-icons/fa';
 import { useAuth } from '../context/AuthContext';
 
 const Navbar = () => {
@@ -16,7 +16,12 @@ const Navbar = () => {
     <nav className="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
       <div className="container-fluid">
         <Link to="/" className="navbar-brand d-flex align-items-center">
-          <span className="fs-3 fw-bold text-primary me-2">🧵</span>
+          <img 
+            src="/logo.jpg" 
+            alt="Shunmugam Textiles Logo" 
+            style={{ height: '40px', width: 'auto' }}
+            className="me-2"
+          />
           <span className="fs-5 fw-semibold text-dark">Shunmugam Textiles</span>
         </Link>
 
