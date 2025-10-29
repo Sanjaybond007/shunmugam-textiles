@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container, Row, Col, Button, Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { FaIndustry, FaUsers, FaChartLine, FaAward } from 'react-icons/fa';
+import { FaIndustry, FaUsers, FaChartLine, FaLeaf } from 'react-icons/fa';
 
 const Home = () => {
   return (
@@ -11,25 +11,25 @@ const Home = () => {
         <Container>
           <Row className="align-items-center">
             <Col lg={6}>
-              <h1>Welcome to Shunmugam Textiles</h1>
+              <h1 className='text-white'>Welcome to Shunmugam Textiles</h1>
               <p className="lead">
-                Leading textile manufacturer with over 20 years of experience in producing 
-                high-quality fabrics for global markets. Our commitment to excellence and 
+                Leading textile manufacturer with over 20 years of experience in producing
+                high-quality fabrics for global markets. Our commitment to excellence and
                 sustainable practices sets us apart in the industry.
               </p>
               <div className="mt-4">
-                <Button 
-                  as={Link} 
-                  to="/products" 
-                  size="lg" 
+                <Button
+                  as={Link}
+                  to="/products"
+                  size="lg"
                   className="btn-textile me-3"
                 >
                   View Products
                 </Button>
-                <Button 
-                  as={Link} 
-                  to="/contact" 
-                  variant="outline-light" 
+                <Button
+                  as={Link}
+                  to="/contact"
+                  variant="outline-light"
                   size="lg"
                 >
                   Contact Us
@@ -38,9 +38,9 @@ const Home = () => {
             </Col>
             <Col lg={6} className="text-center">
               <div className="hero-image">
-                <img 
-                  src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" 
-                  alt="Textile Manufacturing" 
+                <img
+                  src='/home.jpg'
+                  alt="Textile Manufacturing"
                   className="img-fluid rounded"
                   style={{ maxHeight: '400px', objectFit: 'cover' }}
                 />
@@ -59,7 +59,7 @@ const Home = () => {
               <p className="text-muted">We deliver excellence in every thread</p>
             </Col>
           </Row>
-          
+
           <Row>
             <Col lg={3} md={6} className="mb-4">
               <Card className="feature-card h-100">
@@ -74,7 +74,7 @@ const Home = () => {
                 </Card.Body>
               </Card>
             </Col>
-            
+
             <Col lg={3} md={6} className="mb-4">
               <Card className="feature-card h-100">
                 <Card.Body>
@@ -88,7 +88,7 @@ const Home = () => {
                 </Card.Body>
               </Card>
             </Col>
-            
+
             <Col lg={3} md={6} className="mb-4">
               <Card className="feature-card h-100">
                 <Card.Body>
@@ -102,20 +102,21 @@ const Home = () => {
                 </Card.Body>
               </Card>
             </Col>
-            
+
             <Col lg={3} md={6} className="mb-4">
               <Card className="feature-card h-100">
                 <Card.Body>
                   <div className="feature-icon">
-                    <FaAward />
+                    <FaLeaf />
                   </div>
-                  <h5>Certified Excellence</h5>
+                  <h5>Sustainable Fabrics</h5>
                   <p className="text-muted">
-                    ISO certified processes and international quality standards compliance.
+                    Organic cotton, recycled blends, water-saving processes, low-impact chemicals.
                   </p>
                 </Card.Body>
               </Card>
             </Col>
+
           </Row>
         </Container>
       </section>
@@ -127,12 +128,12 @@ const Home = () => {
             <Col lg={6}>
               <h3 className="textile-primary">About Our Company</h3>
               <p className="lead">
-                Founded in 2003, Shunmugam Textiles has grown from a small family business 
+                Founded in 2003, Shunmugam Textiles has grown from a small family business
                 to a leading textile manufacturer serving customers worldwide.
               </p>
               <p>
-                Our mission is to provide the highest quality textiles while maintaining 
-                sustainable practices and supporting our local community. We believe in 
+                Our mission is to provide the highest quality textiles while maintaining
+                sustainable practices and supporting our local community. We believe in
                 innovation, quality, and customer satisfaction.
               </p>
               <Button as={Link} to="/about" variant="outline-primary" className="btn-textile">
@@ -140,19 +141,22 @@ const Home = () => {
               </Button>
             </Col>
             <Col lg={6} className="text-center">
-              <img 
+              {/* <img 
                 src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" 
                 alt="Textile Factory" 
                 className="img-fluid rounded"
                 style={{ maxHeight: '300px', objectFit: 'cover' }}
-              />
+              /> */}
+              <Button as={Link} to="/products" size="lg" className="btn-textile">
+                View All Products
+              </Button>
             </Col>
           </Row>
         </Container>
       </section>
 
       {/* Products Preview Section */}
-      <section className="py-5">
+      {/* <section className="py-5">
         <Container>
           <Row className="text-center mb-5">
             <Col>
@@ -211,15 +215,18 @@ const Home = () => {
             </Col>
           </Row>
           
-          <Row className="text-center mt-4">
+          
+        </Container>
+      </section> */}
+      {/* <Container>
+        <Row className="text-center mt-4">
             <Col>
               <Button as={Link} to="/products" size="lg" className="btn-textile">
                 View All Products
               </Button>
             </Col>
           </Row>
-        </Container>
-      </section>
+      </Container> */}
     </div>
   );
 };
